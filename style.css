@@ -1,0 +1,37 @@
+body {
+    background-color: #f4f6f9;
+}
+.card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: none;
+}
+.stat-card {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+}
+.timer-box {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+}
+.question-card {
+    margin-bottom: 1.5rem;
+}
+.leaderboard-rank-1 { background-color: #fff3cd; }
+.leaderboard-rank-2 { background-color: #e2e3e5; }
+.leaderboard-rank-3 { background-color: #f8d7da; }
+.certificate-box {
+    border: 10px solid #4e73df;
+    padding: 50px;
+    text-align: center;
+    background: #fffdf5;
+}

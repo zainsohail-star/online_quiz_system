@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Available Quizzes{% endblock %}
+{% block content %}
+<h2 class="mb-3">Available Quizzes</h2>
+<form method="get" class="mb-3 d-flex gap-2">
+    <input type="text" name="q" class="form-control" placeholder="Search quizzes..." value="{{ query }}">
+    <button class="btn btn-outline-secondary">Search</button>
+</form>
+<div class="row g-3">
+{% for quiz in page_obj %}
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>{{ quiz.title }}</h5>
+            <p class="text-muted mb-1">{{ quiz.course.code }}</p>
+            <p>{{ quiz.description|truncatewords:15 }}</p>
+            <small>Duration: {{ quiz.duration_minutes }} min | Marks: {{ quiz.total_marks }}</small>
+            <a href="{% url 'start_quiz' quiz.id %}" class="btn btn-success mt-2">Start Quiz</a>
+        </div>
+    </div>
+{% empty %}
+    <p class="text-muted">No quizzes available currently.</p>
+{% endfor %}
+</div>
+{% include 'quiz/_pagination.html' %}
+{% endblock %}

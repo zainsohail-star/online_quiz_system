@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Quiz Result{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card p-4 text-center">
+            <h3>{{ attempt.quiz.title }} - Result</h3>
+            <h1 class="display-4 text-primary">{{ result.marks_obtained }} / {{ result.total_marks }}</h1>
+            <p class="lead">{{ result.percentage }}%</p>
+            <div class="row mt-3">
+                <div class="col-6"><span class="badge bg-success p-2">Correct: {{ result.correct_count }}</span></div>
+                <div class="col-6"><span class="badge bg-danger p-2">Wrong: {{ result.wrong_count }}</span></div>
+            </div>
+            <div class="mt-4 d-flex justify-content-center gap-2">
+                <a href="{% url 'leaderboard' attempt.quiz.id %}" class="btn btn-outline-warning">View Leaderboard</a>
+                {% if result.percentage >= 50 %}
+                    <a href="{% url 'generate_certificate' attempt.id %}" class="btn btn-outline-success">Get Certificate</a>
+                {% endif %}
+                <a href="{% url 'dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

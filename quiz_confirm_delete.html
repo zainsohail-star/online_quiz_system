@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Delete Quiz{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h4>Delete Quiz</h4>
+            <p>Are you sure you want to delete <strong>{{ quiz.title }}</strong> and all its questions/attempts?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a href="{% url 'quiz_list' %}" class="btn btn-outline-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

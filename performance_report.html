@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Performance Report - {{ quiz.title }}{% endblock %}
+{% block content %}
+<h2 class="mb-3">📊 Performance Report: {{ quiz.title }}</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Total Attempts</h6>
+            <h2>{{ stats.total_attempts|default:0 }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Average Score</h6>
+            <h2>{{ stats.avg_score|floatformat:2|default:"0" }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Average Percentage</h6>
+            <h2>{{ stats.avg_percentage|floatformat:2|default:"0" }}%</h2>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3">
+    <h5>Detailed Results</h5>
+    <table class="table table-hover mt-2">
+        <thead><tr><th>Student</th><th>Score</th><th>Percentage</th><th>Correct</th><th>Wrong</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for result in results %}
+            <tr>
+                <td>{{ result.attempt.student.first_name|default:result.attempt.student.username }}</td>
+                <td>{{ result.marks_obtained }} / {{ result.total_marks }}</td>
+                <td>{{ result.percentage }}%</td>
+                <td class="text-success">{{ result.correct_count }}</td>
+                <td class="text-danger">{{ result.wrong_count }}</td>
+                <td>{{ result.attempt.submitted_at|date:"d M Y, H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6" class="text-center text-muted">No attempts yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'quiz_list' %}" class="btn btn-outline-secondary mt-3">Back</a>
+{% endblock %}

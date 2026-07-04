@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-4">Welcome, {{ user.first_name|default:user.username }} 👋</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Enrolled Courses</h6>
+            <h2>{{ courses.count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Available Quizzes</h6>
+            <h2>{{ available_quizzes.count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h6>Attempts Made</h6>
+            <h2>{{ my_attempts.count }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3 mb-4">
+    <h5>Available Quizzes</h5>
+    <table class="table table-hover mt-2">
+        <thead><tr><th>Title</th><th>Course</th><th>Duration</th><th>Action</th></tr></thead>
+        <tbody>
+        {% for quiz in available_quizzes %}
+            <tr>
+                <td>{{ quiz.title }}</td>
+                <td>{{ quiz.course.code }}</td>
+                <td>{{ quiz.duration_minutes }} min</td>
+                <td><a href="{% url 'start_quiz' quiz.id %}" class="btn btn-sm btn-success">Start Quiz</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4" class="text-center text-muted">No quizzes available right now.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-3">
+    <h5>Recent Attempts</h5>
+    <table class="table mt-2">
+        <thead><tr><th>Quiz</th><th>Date</th><th>Score</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for attempt in my_attempts %}
+            <tr>
+                <td>{{ attempt.quiz.title }}</td>
+                <td>{{ attempt.started_at|date:"d M Y, H:i" }}</td>
+                <td>{{ attempt.score }} / {{ attempt.quiz.total_marks }}</td>
+                <td>
+                    {% if attempt.is_completed %}
+                        <a href="{% url 'view_result' attempt.id %}" class="btn btn-sm btn-outline-primary">View Result</a>
+                    {% else %}
+                        <a href="{% url 'start_quiz' attempt.quiz.id %}" class="btn btn-sm btn-warning">Resume</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4" class="text-center text-muted">No attempts yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
